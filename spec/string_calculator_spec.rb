@@ -20,5 +20,9 @@ RSpec.describe StringCalculator do
     it 'returns the sum of multiple numbers' do
       expect(StringCalculator.add('1,5,1,10')).to eq(17)
     end
+
+    it 'handles new lines between numbers' do
+      expect(StringCalculator.add("1\n2,3")).to eq(6)
+    end
   end
 end
