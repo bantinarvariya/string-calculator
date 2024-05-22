@@ -6,11 +6,16 @@ class StringCalculator
     return 0 if numbers.empty?
 
     delimiter = /,|\n/
-    if numbers.start_with?('//')
-      delimiter, numbers = numbers[2..].split("\n", 2)
-      delimiter = Regexp.escape(delimiter)
+    if numbers.start_with?("//")
+      if numbers =~ /^\/\/\[(.+)\]\n/
+        delimiter = Regexp.escape($1)
+        numbers = numbers.split("\n", 2).last
+      elsif numbers =~ /^\/\/(.+)\n/
+        delimiter = Regexp.escape($1)
+        numbers = numbers.split("\n", 2).last
+      end
     end
-
+    
     nums = numbers.split(/#{delimiter}/).map(&:to_i)
     negatives = nums.select(&:negative?)
 
